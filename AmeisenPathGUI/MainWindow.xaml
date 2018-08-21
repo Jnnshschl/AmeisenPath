@@ -5,8 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AmeisenPathGUI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="AmeisenPath - Demo GUI" Height="600" Width="800">
     <Grid>
-        
+        <Canvas x:Name="canvasPath" Height="500" VerticalAlignment="Top" Margin="10,10,10,0" Background="Gainsboro" Width="750"/>
+        <Button Content="Reset Grid" HorizontalAlignment="Left" Margin="10,515,0,0" VerticalAlignment="Top" Width="160" Height="44" FontSize="20" Click="Button_Click" Foreground="Black" FontWeight="Bold"/>
+        <Button x:Name="buttonFindPath" Content="Find Path A*" HorizontalAlignment="Left" Margin="175,515,0,0" VerticalAlignment="Top" Width="607" Height="44" FontSize="20" FontWeight="Bold" Click="ButtonFindPath_Click"/>
+
     </Grid>
 </Window>

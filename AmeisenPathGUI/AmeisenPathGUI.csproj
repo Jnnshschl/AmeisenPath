@@ -93,5 +93,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AmeisenPathLib\AmeisenPathLib.csproj">
+      <Project>{DA582835-AC0B-4C1D-ADD7-1A272057BDE6}</Project>
+      <Name>AmeisenPathLib</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
