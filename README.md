@@ -1,5 +1,5 @@
 # AmeisenPath
-A project to get me into pathfinding. 
+A project to get me into Pathfinding. 
 
 💡 *This thing is going to be used in my Bot.*
 
