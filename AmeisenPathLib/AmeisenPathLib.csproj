@@ -7,8 +7,8 @@
     <ProjectGuid>{DA582835-AC0B-4C1D-ADD7-1A272057BDE6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ClassLibrary1</RootNamespace>
-    <AssemblyName>ClassLibrary1</AssemblyName>
+    <RootNamespace>AmeisenPathLib</RootNamespace>
+    <AssemblyName>AmeisenPath</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
