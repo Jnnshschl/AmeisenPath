@@ -37,11 +37,11 @@ namespace AmeisenPathGUI
         private void ResetMap()
         {
             Random rnd = new Random();
-            startPos = new NodePosition(rnd.Next(0, (int)canvasPath.Width / FACTOR), rnd.Next(0, (int)canvasPath.Height / FACTOR));
-            endPos = new NodePosition(rnd.Next(0, (int)canvasPath.Width / FACTOR), rnd.Next(0, (int)canvasPath.Height / FACTOR));
+            startPos = new NodePosition(rnd.Next(0, (int)canvasPath.ActualWidth / FACTOR), rnd.Next(0, (int)canvasPath.ActualHeight / FACTOR));
+            endPos = new NodePosition(rnd.Next(0, (int)canvasPath.ActualWidth / FACTOR), rnd.Next(0, (int)canvasPath.ActualHeight / FACTOR));
             pathToGo = new List<Node>();
 
-            map = new Node[(int)canvasPath.Width / FACTOR, (int)canvasPath.Height / FACTOR];
+            map = new Node[(int)canvasPath.ActualWidth / FACTOR, (int)canvasPath.ActualHeight / FACTOR];
             FillMap();
             DrawMap();
         }
@@ -66,7 +66,7 @@ namespace AmeisenPathGUI
                                 rect.Fill = new SolidColorBrush(Colors.Orange);
 
                     if (map[x, y].IsBlocked)
-                        rect.Fill = new SolidColorBrush(Colors.Gray);
+                        rect.Fill = new SolidColorBrush(Colors.Black);
 
                     if (x == endPos.X && y == endPos.Y)
                         rect.Fill = new SolidColorBrush(Colors.Red);
@@ -80,11 +80,11 @@ namespace AmeisenPathGUI
 
                     // Debug Output
                     if (map[x, y].GCost != 0)
-                        DrawText((FACTOR * x) + 4, (FACTOR * y), "G: " + map[x, y].GCost, Colors.Black);
+                        DrawText((FACTOR * x) + 4, (FACTOR * y), "G: " + map[x, y].GCost, Colors.White);
                     if (map[x, y].HCost != 0)
-                        DrawText((FACTOR * x) + 4, (FACTOR * y) + 30, "H: " + map[x, y].HCost, Colors.Black);
+                        DrawText((FACTOR * x) + 4, (FACTOR * y) + 30, "H: " + map[x, y].HCost, Colors.White);
                     if (map[x, y].FCost != 0)
-                        DrawText((FACTOR * x) + 16, (FACTOR * y) + 14, "F: " + map[x, y].FCost, Colors.Black);
+                        DrawText((FACTOR * x) + 16, (FACTOR * y) + 14, "F: " + map[x, y].FCost, Colors.White);
 
                     canvasPath.Children.Add(rect);
                 }
@@ -122,6 +122,16 @@ namespace AmeisenPathGUI
             pathToGo = AmeisenPath.FindPathAStar(map, startPos, endPos);
 
             DrawMap();
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
