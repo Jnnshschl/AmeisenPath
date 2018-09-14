@@ -6,7 +6,7 @@
         public int Y { get; set; }
         public int Z { get; set; }
 
-        public NodePosition(int x, int y, int z)
+        public NodePosition(int x, int y, int z = 0)
         {
             X = x;
             Y = y;
