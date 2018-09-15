@@ -4,8 +4,8 @@ namespace AmeisenPathLib.objects
 {
     public class Heap<T> where T : IHeapItem<T>
     {
-        private T[] Items { get; set; }
         public int Count { get; private set; }
+        private T[] Items { get; set; }
 
         public Heap(int maxHeapSize)
         {
