@@ -7,8 +7,8 @@ namespace AmeisenPathLib.objects
         public int GCost { get; set; }
         public int HCost { get; set; }
         public int FCost { get { return GCost + HCost; } }
-        public NodePosition Position { get; private set; }
-        public bool IsBlocked { get; private set; }
+        public NodePosition Position { get; set; }
+        public bool IsBlocked { get; set; }
 
         public Node ParentPathNode { get; set; }
         public int HeapIndex { get; set; }
