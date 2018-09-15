@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AmeisenPathLib.cs" />
+    <Compile Include="interfaces\IHeapItem.cs" />
+    <Compile Include="objects\Heap.cs" />
     <Compile Include="objects\Node.cs" />
     <Compile Include="objects\NodePosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

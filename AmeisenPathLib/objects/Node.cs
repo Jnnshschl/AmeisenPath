@@ -1,6 +1,8 @@
-﻿namespace AmeisenPathLib.objects
+﻿using AmeisenPathLib.interfaces;
+
+namespace AmeisenPathLib.objects
 {
-    public class Node
+    public class Node : IHeapItem<Node>
     {
         public int GCost { get; set; }
         public int HCost { get; set; }
@@ -9,11 +11,20 @@
         public bool IsBlocked { get; private set; }
 
         public Node ParentPathNode { get; set; }
+        public int HeapIndex { get; set; }
 
         public Node(NodePosition position, bool isBlocked)
         {
             Position = position;
             IsBlocked = isBlocked;
+        }
+
+        public int CompareTo(Node other)
+        {
+            int compare = FCost.CompareTo(other.FCost);
+            if (compare == 0)
+                compare = HCost.CompareTo(other.HCost);
+            return -compare;
         }
     }
 }

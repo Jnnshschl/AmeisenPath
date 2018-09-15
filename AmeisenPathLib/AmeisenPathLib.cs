@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using AmeisenPathLib.objects;
 
 namespace AmeisenPathLib
@@ -16,7 +16,7 @@ namespace AmeisenPathLib
         /// <returns>a list of nodes to walk to reach the end position</returns>
         public static List<Node> FindPathAStar(Node[,] map, NodePosition startPosition, NodePosition endPosition)
         {
-            List<Node> openNodes = new List<Node>();
+            Heap<Node> openNodes = new Heap<Node>(map.GetLength(0) * map.GetLength(1));
             HashSet<Node> closedNodes = new HashSet<Node>();
 
             openNodes.Add(map[startPosition.X, startPosition.Y]);
@@ -24,16 +24,7 @@ namespace AmeisenPathLib
             // Aslong as there are nodes to check, go for it
             while (openNodes.Count > 0)
             {
-                Node activeNode = openNodes[0];
-
-                // Find Lowest FCost Node
-                for (int i = 1; i < openNodes.Count; i++)
-                    if (openNodes[i].FCost <= activeNode.FCost)
-                        if (openNodes[i].HCost < activeNode.HCost)
-                            activeNode = openNodes[i];
-
-                // Close the node that is going to be processed at the moment
-                openNodes.Remove(activeNode);
+                Node activeNode = openNodes.RemoveFirst();
                 closedNodes.Add(activeNode);
 
                 // Are we at the endNode
@@ -54,7 +45,10 @@ namespace AmeisenPathLib
                         neighbourNode.GCost = newCostToNeighbour;
                         neighbourNode.HCost = CalculateCost(neighbourNode.Position, endPosition);
                         neighbourNode.ParentPathNode = activeNode;
-                        openNodes.Add(neighbourNode);
+
+                        if(!openNodes.Contains(neighbourNode))
+                            openNodes.Add(neighbourNode);
+                        openNodes.UpdateItem(neighbourNode);
                     }
                 }
             }
