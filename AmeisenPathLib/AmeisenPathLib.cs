@@ -46,9 +46,10 @@ namespace AmeisenPathLib
                         neighbourNode.HCost = CalculateCost(neighbourNode.Position, endPosition);
                         neighbourNode.ParentPathNode = activeNode;
 
-                        if(!openNodes.Contains(neighbourNode))
+                        if (!openNodes.Contains(neighbourNode))
                             openNodes.Add(neighbourNode);
-                        openNodes.UpdateItem(neighbourNode);
+                        else
+                            openNodes.UpdateItem(neighbourNode);
                     }
                 }
             }
