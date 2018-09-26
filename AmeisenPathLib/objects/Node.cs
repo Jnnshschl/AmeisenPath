@@ -1,6 +1,6 @@
-﻿using AmeisenPathLib.interfaces;
+﻿using AmeisenPathCore.Interfaces;
 
-namespace AmeisenPathLib.objects
+namespace AmeisenPathCore.Objects
 {
     public class Node : IHeapItem<Node>
     {

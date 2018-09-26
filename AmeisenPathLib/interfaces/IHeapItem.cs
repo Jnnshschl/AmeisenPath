@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AmeisenPathLib.interfaces
+namespace AmeisenPathCore.Interfaces
 {
     public interface IHeapItem<T> : IComparable<T>
     {

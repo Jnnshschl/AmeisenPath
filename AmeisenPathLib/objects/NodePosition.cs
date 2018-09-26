@@ -1,4 +1,4 @@
-﻿namespace AmeisenPathLib.objects
+﻿namespace AmeisenPathCore.Objects
 {
     public class NodePosition
     {

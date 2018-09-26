@@ -7,8 +7,8 @@
     <ProjectGuid>{DA582835-AC0B-4C1D-ADD7-1A272057BDE6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AmeisenPathLib</RootNamespace>
-    <AssemblyName>AmeisenPath</AssemblyName>
+    <RootNamespace>AmeisenPathCore</RootNamespace>
+    <AssemblyName>AmeisenPath.Core</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,11 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AmeisenPathLib.cs" />
-    <Compile Include="interfaces\IHeapItem.cs" />
-    <Compile Include="objects\Heap.cs" />
-    <Compile Include="objects\Node.cs" />
-    <Compile Include="objects\NodePosition.cs" />
+    <Compile Include="AmeisenPath.cs" />
+    <Compile Include="Interfaces\IHeapItem.cs" />
+    <Compile Include="Objects\Heap.cs" />
+    <Compile Include="Objects\Node.cs" />
+    <Compile Include="Objects\NodePosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

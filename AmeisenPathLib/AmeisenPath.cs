@@ -1,9 +1,16 @@
-﻿using AmeisenPathLib.objects;
+﻿using AmeisenPathCore.Objects;
 using System;
 using System.Collections.Generic;
 
-namespace AmeisenPathLib
+namespace AmeisenPathCore
 {
+    /// <summary>
+    /// Use this class do find Paths...
+    /// 
+    /// static FindPathAStar(...); to use A* Pathfinding
+    /// static GetNeighbours(...); to get Neighbour-Nodes
+    /// static CalculateCost(...); to alculate a move cost
+    /// </summary>
     public class AmeisenPath
     {
         /// <summary>
@@ -12,8 +19,10 @@ namespace AmeisenPathLib
         /// <param name="map">the map that conatin our start and end points</param>
         /// <param name="startPosition">starting position</param>
         /// <param name="endPosition">end position</param>
+        /// <param name="shouldCheckHeight">check for the Z coordinate</param>
+        /// <param name="maxHeightToPass">max height we can go upwards</param>
         /// <returns>a list of nodes to walk to reach the end position</returns>
-        public static List<Node> FindPathAStar(Node[,] map, NodePosition startPosition, NodePosition endPosition)
+        public static List<Node> FindPathAStar(Node[,] map, NodePosition startPosition, NodePosition endPosition, bool shouldCheckHeight = false, double maxHeightToPass = 1.5)
         {
             Heap<Node> openNodes = new Heap<Node>(map.GetLength(0) * map.GetLength(1));
             HashSet<Node> closedNodes = new HashSet<Node>();
@@ -37,6 +46,10 @@ namespace AmeisenPathLib
                     if (neighbourNode.IsBlocked || closedNodes.Contains(neighbourNode))
                         continue;
 
+                    // height check
+                    if (shouldCheckHeight && GetHeightDiff(activeNode, neighbourNode) > maxHeightToPass)
+                        continue;
+
                     // calculate new cost to go to the neighbour node and add it to the openNodes
                     // list if its not already in there
                     int newCostToNeighbour = activeNode.GCost + CalculateCost(activeNode.Position, neighbourNode.Position);
@@ -57,6 +70,25 @@ namespace AmeisenPathLib
             return null;
         }
 
+        /// <summary>
+        /// Check how much Z diff is between 2 Nodes
+        /// </summary>
+        /// <param name="nodeA">a</param>
+        /// <param name="nodeB">b</param>
+        /// <returns>difference at the Z axis between the give Nodes</returns>
+        private static double GetHeightDiff(Node nodeA, Node nodeB)
+        {
+            if (nodeA.Position.Z > nodeB.Position.Z)
+                return nodeA.Position.Z - nodeB.Position.Z;
+            return nodeB.Position.Z - nodeA.Position.Z;
+        }
+
+        /// <summary>
+        /// Returns all the Nodes around the given ode from a map
+        /// </summary>
+        /// <param name="map">current map</param>
+        /// <param name="currentPosition">position to get the neighbours of</param>
+        /// <returns>List cotaining all neighbour nodes</returns>
         public static List<Node> GetNeighbours(Node[,] map, NodePosition currentPosition)
         {
             List<Node> neighbours = new List<Node>();
@@ -75,6 +107,13 @@ namespace AmeisenPathLib
             return neighbours;
         }
 
+        /// <summary>
+        /// Reverse the path and make it ready to be used in some sort of movement
+        /// </summary>
+        /// <param name="map">current map</param>
+        /// <param name="startPosition">start position</param>
+        /// <param name="endPosition">end position</param>
+        /// <returns>the walkable path as list</returns>
         private static List<Node> GeneratePath(Node[,] map, NodePosition startPosition, NodePosition endPosition)
         {
             List<Node> pathTogGo = new List<Node>();
@@ -93,7 +132,15 @@ namespace AmeisenPathLib
             return pathTogGo;
         }
 
-        private static int CalculateCost(NodePosition nodeA, NodePosition nodeB)
+        /// <summary>
+        /// Calculate the step-cost of a current step
+        /// 10 for a straight move
+        /// 14 for a diagonal move
+        /// </summary>
+        /// <param name="nodeA">node a</param>
+        /// <param name="nodeB">node b</param>
+        /// <returns>the step-cost of the step between two given nodes</returns>
+        public static int CalculateCost(NodePosition nodeA, NodePosition nodeB)
         {
             int distanceX = Math.Abs(nodeA.X - nodeB.X);
             int distanceY = Math.Abs(nodeA.Y - nodeB.Y);
