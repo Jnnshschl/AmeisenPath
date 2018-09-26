@@ -129,7 +129,7 @@ namespace AmeisenPathGUI
             DragMove();
         }
 
-        private void buttonExit_Click(object sender, RoutedEventArgs e)
+        private void ButtonExit_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
