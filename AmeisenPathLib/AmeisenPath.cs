@@ -22,7 +22,7 @@ namespace AmeisenPathCore
         /// <param name="shouldCheckHeight">check for the Z coordinate</param>
         /// <param name="maxHeightToPass">max height we can go upwards</param>
         /// <returns>a list of nodes to walk to reach the end position</returns>
-        public static List<Node> FindPathAStar(Node[,] map, NodePosition startPosition, NodePosition endPosition, bool shouldCheckHeight = false, double maxHeightToPass = 1.5)
+        public static List<Node> FindPathAStar(Node[,] map, NodePosition startPosition, NodePosition endPosition, bool diagonalMovesAllowed = false, bool shouldCheckHeight = false, double maxHeightToPass = 1.5)
         {
             Heap<Node> openNodes = new Heap<Node>(map.GetLength(0) * map.GetLength(1));
             HashSet<Node> closedNodes = new HashSet<Node>();
@@ -40,7 +40,7 @@ namespace AmeisenPathCore
                     return GeneratePath(map, startPosition, endPosition);
 
                 // Check the neighbour nodes
-                foreach (Node neighbourNode in GetNeighbours(map, activeNode.Position))
+                foreach (Node neighbourNode in GetNeighbours(map, activeNode.Position, diagonalMovesAllowed))
                 {
                     // if its blocked or closed, skip it
                     if (neighbourNode.IsBlocked || closedNodes.Contains(neighbourNode))
@@ -89,20 +89,36 @@ namespace AmeisenPathCore
         /// <param name="map">current map</param>
         /// <param name="currentPosition">position to get the neighbours of</param>
         /// <returns>List cotaining all neighbour nodes</returns>
-        public static List<Node> GetNeighbours(Node[,] map, NodePosition currentPosition)
+        public static List<Node> GetNeighbours(Node[,] map, NodePosition currentPosition, bool includeDiagonalNeighbours = true)
         {
             List<Node> neighbours = new List<Node>();
 
-            // Calculate the boundaries where the hood is in :^)
-            int xStart = currentPosition.X > 0 ? currentPosition.X - 1 : currentPosition.X;
-            int xEnd = currentPosition.X < map.GetLength(0) - 1 ? currentPosition.X + 1 : currentPosition.X;
+            if (includeDiagonalNeighbours)
+            {
+                int xStart = currentPosition.X > 0 ? currentPosition.X - 1 : currentPosition.X;
+                int xEnd = currentPosition.X < map.GetLength(0) - 1 ? currentPosition.X + 1 : currentPosition.X;
 
-            int yStart = currentPosition.Y > 0 ? currentPosition.Y - 1 : currentPosition.Y;
-            int yEnd = currentPosition.Y < map.GetLength(1) - 1 ? currentPosition.Y + 1 : currentPosition.Y;
+                int yStart = currentPosition.Y > 0 ? currentPosition.Y - 1 : currentPosition.Y;
+                int yEnd = currentPosition.Y < map.GetLength(1) - 1 ? currentPosition.Y + 1 : currentPosition.Y;
 
-            for (int x = xStart; x <= xEnd; x++)
-                for (int y = yStart; y <= yEnd; y++)
-                    neighbours.Add(map[x, y]);
+                for (int x = xStart; x <= xEnd; x++)
+                    for (int y = yStart; y <= yEnd; y++)
+                        neighbours.Add(map[x, y]);
+            }
+            else
+            {
+                int x = currentPosition.X;
+                int y = currentPosition.Y;
+
+                if (x < map.GetLength(0) - 1)
+                    neighbours.Add(map[x + 1, y]);
+                if (x > 0)
+                    neighbours.Add(map[x - 1, y]);
+                if (y < map.GetLength(1) - 1)
+                    neighbours.Add(map[x, y + 1]);
+                if (y > 0)
+                    neighbours.Add(map[x, y - 1]);
+            }
 
             return neighbours;
         }

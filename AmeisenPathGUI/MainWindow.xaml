@@ -4,11 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="AmeisenPath - Demo GUI" Height="575.661" Width="778" ResizeMode="CanResizeWithGrip" WindowStyle="None" Background="#FF4D4D4D" MouseLeftButtonDown="Window_MouseLeftButtonDown" BorderBrush="#FFB4B4B4" BorderThickness="0">
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Title="AmeisenPath - Demo GUI" Height="575.661" Width="778" ResizeMode="CanResizeWithGrip" Background="#FF4D4D4D" MouseLeftButtonDown="Window_MouseLeftButtonDown" BorderBrush="#FFB4B4B4" BorderThickness="2">
     <Grid>
         <Canvas x:Name="canvasPath" Margin="10,58,10,10" Background="#FF6A6A6A"/>
-        <Button Content="Reset Grid" HorizontalAlignment="Left" Margin="10,10,0,0" Width="149" FontSize="20" Click="Button_Click" Foreground="White" Background="{x:Null}" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="43" VerticalAlignment="Top"/>
-        <Button x:Name="buttonFindPath" Content="Find Path A*" Margin="164,10,59,0" FontSize="20" Click="ButtonFindPath_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="43" VerticalAlignment="Top"/>
-        <Button x:Name="buttonExit" Content="X" Margin="0,10,10,0" VerticalAlignment="Top" Height="43" FontSize="16" FontWeight="Bold" Click="buttonExit_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" HorizontalAlignment="Right" Width="42"/>
+        <Button Content="Reset Grid" HorizontalAlignment="Left" Margin="10,10,0,0" Width="75" Click="Button_Click" Foreground="White" Background="{x:Null}" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14"/>
+        <Button x:Name="buttonFindPath" Content="Find Path A*" Margin="90,10,602,0" Click="ButtonFindPath_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14"/>
+        <Button x:Name="buttonExit" Content="X" VerticalAlignment="Top" Height="32" FontSize="16" FontWeight="Bold" Click="ButtonExit_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" HorizontalAlignment="Right" Width="32" Margin="0,-2,-2,0"/>
+        <Label x:Name="labelTimeGridGen" Content="..." HorizontalAlignment="Left" Margin="470,7,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Consolas"/>
+        <Label x:Name="labelTimePathGen" Content="..." HorizontalAlignment="Left" Margin="602,7,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Consolas"/>
+        <Slider x:Name="sliderTileSize" HorizontalAlignment="Left" Margin="83,37,0,0" VerticalAlignment="Top" Width="152" Maximum="50" Minimum="1" ValueChanged="Slider_ValueChanged" Value="24"/>
+        <Label x:Name="labelTileSize" Content="TileSize: 24" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Foreground="White"/>
+        <CheckBox x:Name="checkboxDrawCosts" Content="DrawCosts" HorizontalAlignment="Left" Margin="240,30,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Consolas" FontSize="14"/>
+        <CheckBox x:Name="checkboxDiagonal" Content="DiagonalMoves" HorizontalAlignment="Left" Margin="240,10,0,0" VerticalAlignment="Top" Background="White" Foreground="White" FontFamily="Consolas" FontSize="14"/>
+        <Button x:Name="buttonImport" Content="📁" Margin="177,10,571,0" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14" Click="ButtonImport_Click"/>
+        <Button x:Name="buttonExport" Content="💾" Margin="208,10,540,0" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14" Click="ButtonExport_Click"/>
     </Grid>
 </Window>

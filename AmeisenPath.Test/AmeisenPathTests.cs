@@ -64,7 +64,8 @@ namespace AmeisenPathCore.Tests
                 AmeisenPath.FindPathAStar(
                     sampleMap,
                     new NodePosition(0, 0),
-                    new NodePosition(3, 3));
+                    new NodePosition(3, 3),
+                    true);
 
             return ComparePath(expectedPath, calculatedPath);
         }
@@ -121,6 +122,7 @@ namespace AmeisenPathCore.Tests
                     sampleMap,
                     new NodePosition(0, 0, 0),
                     new NodePosition(3, 3, 7),
+                    true,
                     true,
                     1.5);
 
