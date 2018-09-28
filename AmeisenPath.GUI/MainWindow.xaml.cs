@@ -5,7 +5,6 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.IO;
-
 using AmeisenPathCore;
 using AmeisenPathCore.Objects;
 using System.Diagnostics;
@@ -61,7 +60,12 @@ namespace AmeisenPathGUI
 
         private void DrawMap()
         {
+            SolidColorBrush blockedBrush = new SolidColorBrush(Color.FromArgb(255, 50, 50, 50));
+            SolidColorBrush startBrush = new SolidColorBrush(Colors.Lime);
+            SolidColorBrush endBrush = new SolidColorBrush(Colors.Red);
+            
             canvasPath.Children.Clear();
+            canvasPath.BeginInit();
             for (int x = 0; x < map.GetLength(0); x++)
                 for (int y = 0; y < map.GetLength(1); y++)
                 {
@@ -70,32 +74,14 @@ namespace AmeisenPathGUI
                         //Stroke = new SolidColorBrush(Colors.Black),
                         Width = tileSize,
                         Height = tileSize,
-                        StrokeThickness = 1
                     };
 
-                    if (pathToGo != null)
-                    {
-                        int posAt = 0;
-                        foreach (Node n in pathToGo)
-                        {
-                            if (x == n.Position.X && y == n.Position.Y)
-                            {
-                                rect.Fill = new SolidColorBrush(Colors.Orange);
-                                break;
-                            }
-                            posAt++;
-                        }
-                    }
-
                     if (map[x, y].IsBlocked)
-                        rect.Fill = new SolidColorBrush(Color.FromArgb(255, 50, 50, 50));
-
-                    if (x == endPos.X && y == endPos.Y)
-                        rect.Fill = new SolidColorBrush(Colors.Red);
-
-                    if (x == startPos.X && y == startPos.Y)
-                        rect.Fill = new SolidColorBrush(Colors.Lime);
-
+                        rect.Fill = blockedBrush;
+                    else if (x == endPos.X && y == endPos.Y)
+                        rect.Fill = endBrush;
+                    else if (x == startPos.X && y == startPos.Y)
+                        rect.Fill = startBrush;
 
                     Canvas.SetLeft(rect, (tileSize * x));
                     Canvas.SetTop(rect, (tileSize * y));
@@ -112,6 +98,7 @@ namespace AmeisenPathGUI
 
                     canvasPath.Children.Add(rect);
                 }
+            canvasPath.EndInit();
         }
 
         private void DrawText(double x, double y, string text, Color color, double fontSize)
@@ -155,10 +142,45 @@ namespace AmeisenPathGUI
 
             sw.Reset();
             sw.Start();
-            DrawMap();
+            DrawPath();
             sw.Stop();
 
             labelTimePathGen.Content = $"PathFinding: {pathfindingmillis}ms\nMapDrawing: {sw.ElapsedMilliseconds}ms";
+        }
+
+        private void DrawPath()
+        {
+            SolidColorBrush orangeBrush = new SolidColorBrush(Colors.Orange);
+
+            for (int x = 0; x < map.GetLength(0); x++)
+                for (int y = 0; y < map.GetLength(1); y++)
+                {
+                    Rectangle rect = new Rectangle
+                    {
+                        //Stroke = new SolidColorBrush(Colors.Black),
+                        Width = tileSize,
+                        Height = tileSize,
+                    };
+
+                    if (pathToGo != null)
+                    {
+                        int posAt = 0;
+                        foreach (Node n in pathToGo)
+                        {
+                            if (x == n.Position.X && y == n.Position.Y)
+                            {
+                                rect.Fill = orangeBrush;
+                                break;
+                            }
+                            posAt++;
+                        }
+                    }
+
+                    Canvas.SetLeft(rect, (tileSize * x));
+                    Canvas.SetTop(rect, (tileSize * y));
+
+                    canvasPath.Children.Add(rect);
+                }
         }
 
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)

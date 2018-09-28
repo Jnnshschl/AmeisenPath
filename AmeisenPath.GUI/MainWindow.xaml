@@ -8,7 +8,11 @@
         AllowsTransparency="True"
         Title="AmeisenPath - Demo GUI" Height="575.661" Width="778" ResizeMode="CanResizeWithGrip" Background="#FF4D4D4D" MouseLeftButtonDown="Window_MouseLeftButtonDown" BorderBrush="#FFB4B4B4" BorderThickness="2">
     <Grid>
-        <Canvas x:Name="canvasPath" Margin="10,58,10,10" Background="#FF6A6A6A"/>
+        <Canvas RenderOptions.EdgeMode="Aliased" RenderOptions.BitmapScalingMode="LowQuality"  x:Name="canvasPath" Margin="10,58,10,10" Background="#FF6A6A6A"
+        >
+            <Canvas.CacheMode>
+                <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="False"/>
+            </Canvas.CacheMode></Canvas>
         <Button Content="Reset Grid" HorizontalAlignment="Left" Margin="10,10,0,0" Width="75" Click="Button_Click" Foreground="White" Background="{x:Null}" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14"/>
         <Button x:Name="buttonFindPath" Content="Find Path A*" Margin="90,10,602,0" Click="ButtonFindPath_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14"/>
         <Button x:Name="buttonExit" Content="X" VerticalAlignment="Top" Height="32" FontSize="16" FontWeight="Bold" Click="ButtonExit_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" HorizontalAlignment="Right" Width="32" Margin="0,-2,-2,0"/>
