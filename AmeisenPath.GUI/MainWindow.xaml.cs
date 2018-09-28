@@ -64,6 +64,7 @@ namespace AmeisenPathGUI
             SolidColorBrush blockedBrush = new SolidColorBrush(Color.FromArgb(255, 50, 50, 50));
             SolidColorBrush startBrush = new SolidColorBrush(Colors.Lime);
             SolidColorBrush endBrush = new SolidColorBrush(Colors.Red);
+            SolidColorBrush selectedBrush = null;
 
             canvasPath.Children.Clear();
 
@@ -73,8 +74,6 @@ namespace AmeisenPathGUI
                 for (int x = 0; x < map.GetLength(0); x++)
                     for (int y = 0; y < map.GetLength(1); y++)
                     {
-                        SolidColorBrush selectedBrush = null;
-
                         if (map[x, y].IsBlocked)
                             selectedBrush = blockedBrush;
                         else if (x == endPos.X && y == endPos.Y)
@@ -97,6 +96,7 @@ namespace AmeisenPathGUI
                             selectedBrush,
                             null,
                             new Rect((tileSize * x), (tileSize * y), tileSize, tileSize));
+                        selectedBrush = null;
                     }
                 canvasPath.Children.Add(new VisualHost { Visual = dv });
             }
@@ -158,25 +158,21 @@ namespace AmeisenPathGUI
             {
                 for (int x = 0; x < map.GetLength(0); x++)
                     for (int y = 0; y < map.GetLength(1); y++)
-                    {
-                        SolidColorBrush selectedBrush = null;
-                        
+                    {                        
                         if (pathToGo != null)
                         {
                             foreach (Node n in pathToGo)
                             {
                                 if (x == n.Position.X && y == n.Position.Y)
                                 {
-                                    selectedBrush = orangeBrush;
+                                    dc.DrawRectangle(
+                                        orangeBrush,
+                                        null,
+                                        new Rect((tileSize * x), (tileSize * y), tileSize, tileSize));
                                     break;
                                 }
                             }
                         }
-
-                        dc.DrawRectangle(
-                            selectedBrush,
-                            null,
-                            new Rect((tileSize * x), (tileSize * y), tileSize, tileSize));
                     }
                 canvasPath.Children.Add(new VisualHost { Visual = dv });
             }
