@@ -97,7 +97,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AmeisenPathLib\AmeisenPath.Core.csproj">
+    <ProjectReference Include="..\AmeisenPath.Core\AmeisenPath.Core.csproj">
       <Project>{DA582835-AC0B-4C1D-ADD7-1A272057BDE6}</Project>
       <Name>AmeisenPath.Core</Name>
     </ProjectReference>
