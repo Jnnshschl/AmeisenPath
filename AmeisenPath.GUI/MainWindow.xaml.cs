@@ -9,6 +9,7 @@ using AmeisenPathCore;
 using AmeisenPathCore.Objects;
 using System.Diagnostics;
 using Microsoft.Win32;
+using System.Windows.Media.Imaging;
 
 namespace AmeisenPathGUI
 {
@@ -63,42 +64,42 @@ namespace AmeisenPathGUI
             SolidColorBrush blockedBrush = new SolidColorBrush(Color.FromArgb(255, 50, 50, 50));
             SolidColorBrush startBrush = new SolidColorBrush(Colors.Lime);
             SolidColorBrush endBrush = new SolidColorBrush(Colors.Red);
-            
+
             canvasPath.Children.Clear();
-            canvasPath.BeginInit();
-            for (int x = 0; x < map.GetLength(0); x++)
-                for (int y = 0; y < map.GetLength(1); y++)
-                {
-                    Rectangle rect = new Rectangle
+
+            DrawingVisual dv = new DrawingVisual();
+            using (DrawingContext dc = dv.RenderOpen())
+            {
+                for (int x = 0; x < map.GetLength(0); x++)
+                    for (int y = 0; y < map.GetLength(1); y++)
                     {
-                        //Stroke = new SolidColorBrush(Colors.Black),
-                        Width = tileSize,
-                        Height = tileSize,
-                    };
+                        SolidColorBrush selectedBrush = null;
 
-                    if (map[x, y].IsBlocked)
-                        rect.Fill = blockedBrush;
-                    else if (x == endPos.X && y == endPos.Y)
-                        rect.Fill = endBrush;
-                    else if (x == startPos.X && y == startPos.Y)
-                        rect.Fill = startBrush;
+                        if (map[x, y].IsBlocked)
+                            selectedBrush = blockedBrush;
+                        else if (x == endPos.X && y == endPos.Y)
+                            selectedBrush = endBrush;
+                        else if (x == startPos.X && y == startPos.Y)
+                            selectedBrush = startBrush;
+                        else continue;
 
-                    Canvas.SetLeft(rect, (tileSize * x));
-                    Canvas.SetTop(rect, (tileSize * y));
+                        if (checkboxDrawCosts.IsChecked == true)
+                        {
+                            if (map[x, y].GCost != 0)
+                                DrawText((tileSize * x) + 4, (tileSize * y), "G: " + map[x, y].GCost, Colors.White, tileSize / 3);
+                            if (map[x, y].HCost != 0)
+                                DrawText((tileSize * x) + 4, (tileSize * y) + 30, "H: " + map[x, y].HCost, Colors.White, tileSize / 3);
+                            if (map[x, y].FCost != 0)
+                                DrawText((tileSize * x) + 4, (tileSize * y) + 14, "F: " + map[x, y].FCost, Colors.White, tileSize / 3);
+                        }
 
-                    if (checkboxDrawCosts.IsChecked == true)
-                    {
-                        if (map[x, y].GCost != 0)
-                            DrawText((tileSize * x) + 4, (tileSize * y), "G: " + map[x, y].GCost, Colors.White, tileSize / 3);
-                        if (map[x, y].HCost != 0)
-                            DrawText((tileSize * x) + 4, (tileSize * y) + 30, "H: " + map[x, y].HCost, Colors.White, tileSize / 3);
-                        if (map[x, y].FCost != 0)
-                            DrawText((tileSize * x) + 4, (tileSize * y) + 14, "F: " + map[x, y].FCost, Colors.White, tileSize / 3);
+                        dc.DrawRectangle(
+                            selectedBrush,
+                            null,
+                            new Rect((tileSize * x), (tileSize * y), tileSize, tileSize));
                     }
-
-                    canvasPath.Children.Add(rect);
-                }
-            canvasPath.EndInit();
+                canvasPath.Children.Add(new VisualHost { Visual = dv });
+            }
         }
 
         private void DrawText(double x, double y, string text, Color color, double fontSize)
@@ -152,35 +153,33 @@ namespace AmeisenPathGUI
         {
             SolidColorBrush orangeBrush = new SolidColorBrush(Colors.Orange);
 
-            for (int x = 0; x < map.GetLength(0); x++)
-                for (int y = 0; y < map.GetLength(1); y++)
-                {
-                    Rectangle rect = new Rectangle
+            DrawingVisual dv = new DrawingVisual();
+            using (DrawingContext dc = dv.RenderOpen())
+            {
+                for (int x = 0; x < map.GetLength(0); x++)
+                    for (int y = 0; y < map.GetLength(1); y++)
                     {
-                        //Stroke = new SolidColorBrush(Colors.Black),
-                        Width = tileSize,
-                        Height = tileSize,
-                    };
-
-                    if (pathToGo != null)
-                    {
-                        int posAt = 0;
-                        foreach (Node n in pathToGo)
+                        SolidColorBrush selectedBrush = null;
+                        
+                        if (pathToGo != null)
                         {
-                            if (x == n.Position.X && y == n.Position.Y)
+                            foreach (Node n in pathToGo)
                             {
-                                rect.Fill = orangeBrush;
-                                break;
+                                if (x == n.Position.X && y == n.Position.Y)
+                                {
+                                    selectedBrush = orangeBrush;
+                                    break;
+                                }
                             }
-                            posAt++;
                         }
+
+                        dc.DrawRectangle(
+                            selectedBrush,
+                            null,
+                            new Rect((tileSize * x), (tileSize * y), tileSize, tileSize));
                     }
-
-                    Canvas.SetLeft(rect, (tileSize * x));
-                    Canvas.SetTop(rect, (tileSize * y));
-
-                    canvasPath.Children.Add(rect);
-                }
+                canvasPath.Children.Add(new VisualHost { Visual = dv });
+            }
         }
 
         private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
