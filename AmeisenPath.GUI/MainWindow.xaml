@@ -12,9 +12,10 @@
         >
             <Canvas.CacheMode>
                 <BitmapCache EnableClearType="False" RenderAtScale="1" SnapsToDevicePixels="False"/>
-            </Canvas.CacheMode></Canvas>
+            </Canvas.CacheMode>
+        </Canvas>
         <Button Content="Reset Grid" HorizontalAlignment="Left" Margin="10,10,0,0" Width="75" Click="Button_Click" Foreground="White" Background="{x:Null}" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14"/>
-        <Button x:Name="buttonFindPath" Content="Find Path A*" Margin="90,10,602,0" Click="ButtonFindPath_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14"/>
+        <Button x:Name="buttonFindPath" Content="Find Path A*" Margin="90,10,0,0" Click="ButtonFindPath_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" FontSize="14" Height="24" VerticalAlignment="Top" HorizontalAlignment="Left" Width="82"/>
         <Button x:Name="buttonExit" Content="X" VerticalAlignment="Top" Height="32" FontSize="16" FontWeight="Bold" Click="ButtonExit_Click" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" HorizontalAlignment="Right" Width="32" Margin="0,-2,-2,0"/>
         <Label x:Name="labelTimeGridGen" Content="..." HorizontalAlignment="Left" Margin="470,7,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Consolas"/>
         <Label x:Name="labelTimePathGen" Content="..." HorizontalAlignment="Left" Margin="602,7,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Consolas"/>
@@ -22,7 +23,7 @@
         <Label x:Name="labelTileSize" Content="TileSize: 24" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Foreground="White"/>
         <CheckBox x:Name="checkboxDrawCosts" Content="DrawCosts" HorizontalAlignment="Left" Margin="240,30,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Consolas" FontSize="14"/>
         <CheckBox x:Name="checkboxDiagonal" Content="DiagonalMoves" HorizontalAlignment="Left" Margin="240,10,0,0" VerticalAlignment="Top" Background="White" Foreground="White" FontFamily="Consolas" FontSize="14"/>
-        <Button x:Name="buttonImport" Content="📁" Margin="177,10,571,0" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14" Click="ButtonImport_Click"/>
-        <Button x:Name="buttonExport" Content="💾" Margin="208,10,540,0" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14" Click="ButtonExport_Click"/>
+        <Button x:Name="buttonImport" Content="📁" Margin="177,10,0,0" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14" Click="ButtonImport_Click" HorizontalAlignment="Left" Width="26"/>
+        <Button x:Name="buttonExport" Content="💾" Margin="208,10,0,0" Background="{x:Null}" Foreground="White" BorderBrush="#FFB4B4B4" BorderThickness="2" Height="24" VerticalAlignment="Top" FontSize="14" Click="ButtonExport_Click" HorizontalAlignment="Left" Width="26"/>
     </Grid>
 </Window>
