@@ -1,6 +1,7 @@
 ﻿using AmeisenPathCore.Objects;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AmeisenPathCore
 {
@@ -24,7 +25,7 @@ namespace AmeisenPathCore
         /// <returns>a list of nodes to walk to reach the end position</returns>
         public static List<Node> FindPathAStar(Node[,] map, NodePosition startPosition, NodePosition endPosition, bool diagonalMovesAllowed = false, bool shouldCheckHeight = false, double maxHeightToPass = 1.5)
         {
-            Heap<Node> openNodes = new Heap<Node>(map.GetLength(0) * map.GetLength(1));
+            SortedSet<Node> openNodes = new SortedSet<Node>();
             HashSet<Node> closedNodes = new HashSet<Node>();
 
             openNodes.Add(map[startPosition.X, startPosition.Y]);
@@ -32,23 +33,30 @@ namespace AmeisenPathCore
             // Aslong as there are nodes to check, go for it
             while (openNodes.Count > 0)
             {
-                Node activeNode = openNodes.RemoveFirst();
+                Node activeNode = openNodes.First();
+                openNodes.Remove(activeNode);
                 closedNodes.Add(activeNode);
 
                 // Are we at the endNode
                 if (activeNode.Position.X == endPosition.X && activeNode.Position.Y == endPosition.Y)
+                {
                     return GeneratePath(map, startPosition, endPosition);
+                }
 
                 // Check the neighbour nodes
                 foreach (Node neighbourNode in GetNeighbours(map, activeNode.Position, diagonalMovesAllowed))
                 {
                     // if its blocked or closed, skip it
                     if (neighbourNode.IsBlocked || closedNodes.Contains(neighbourNode))
+                    {
                         continue;
+                    }
 
                     // height check
                     if (shouldCheckHeight && GetHeightDiff(activeNode, neighbourNode) > maxHeightToPass)
+                    {
                         continue;
+                    }
 
                     // calculate new cost to go to the neighbour node and add it to the openNodes
                     // list if its not already in there
@@ -60,9 +68,13 @@ namespace AmeisenPathCore
                         neighbourNode.ParentPathNode = activeNode;
 
                         if (!openNodes.Contains(neighbourNode))
+                        {
                             openNodes.Add(neighbourNode);
+                        }
                         else
-                            openNodes.UpdateItem(neighbourNode);
+                        {
+                            //openNodes.UpdateItem(neighbourNode);
+                        }
                     }
                 }
             }
@@ -79,7 +91,10 @@ namespace AmeisenPathCore
         private static double GetHeightDiff(Node nodeA, Node nodeB)
         {
             if (nodeA.Position.Z > nodeB.Position.Z)
+            {
                 return nodeA.Position.Z - nodeB.Position.Z;
+            }
+
             return nodeB.Position.Z - nodeA.Position.Z;
         }
 
@@ -102,8 +117,12 @@ namespace AmeisenPathCore
                 int yEnd = currentPosition.Y < map.GetLength(1) - 1 ? currentPosition.Y + 1 : currentPosition.Y;
 
                 for (int x = xStart; x <= xEnd; x++)
+                {
                     for (int y = yStart; y <= yEnd; y++)
+                    {
                         neighbours.Add(map[x, y]);
+                    }
+                }
             }
             else
             {
@@ -111,13 +130,24 @@ namespace AmeisenPathCore
                 int y = currentPosition.Y;
 
                 if (x < map.GetLength(0) - 1)
+                {
                     neighbours.Add(map[x + 1, y]);
+                }
+
                 if (x > 0)
+                {
                     neighbours.Add(map[x - 1, y]);
+                }
+
                 if (y < map.GetLength(1) - 1)
+                {
                     neighbours.Add(map[x, y + 1]);
+                }
+
                 if (y > 0)
+                {
                     neighbours.Add(map[x, y - 1]);
+                }
             }
 
             return neighbours;
@@ -163,7 +193,10 @@ namespace AmeisenPathCore
 
             // 10 for a move 14 for a diagonal move
             if (distanceX > distanceY)
+            {
                 return 14 * distanceY + 10 * (distanceX - distanceY);
+            }
+
             return 14 * distanceX + 10 * (distanceY - distanceX);
         }
     }
