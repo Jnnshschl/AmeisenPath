@@ -114,21 +114,23 @@ namespace AmeisenPathGUI
 
         private void RenderMap()
         {
-            Bitmap bitmap = new Bitmap(map.GetLength(0) * tileSize, map.GetLength(1) * tileSize);
-            using (Graphics graphics = Graphics.FromImage(bitmap))
-            {
-                RenderMap(graphics);
-            }
-
             BitmapImage bitmapImageMap = new BitmapImage();
-            using (MemoryStream memory = new MemoryStream())
+
+            using (Bitmap bitmap = new Bitmap(map.GetLength(0) * tileSize, map.GetLength(1) * tileSize))
             {
-                bitmap.Save(memory, ImageFormat.Png);
-                memory.Position = 0;
-                bitmapImageMap.BeginInit();
-                bitmapImageMap.StreamSource = memory;
-                bitmapImageMap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImageMap.EndInit();
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    RenderMap(graphics);
+                }
+                using (MemoryStream memory = new MemoryStream())
+                {
+                    bitmap.Save(memory, ImageFormat.Png);
+                    memory.Position = 0;
+                    bitmapImageMap.BeginInit();
+                    bitmapImageMap.StreamSource = memory;
+                    bitmapImageMap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImageMap.EndInit();
+                }
             }
 
             mapImage.Source = bitmapImageMap;
